@@ -1,0 +1,17 @@
+The Bechdel Test Visualizer
+https://bechdel-test.herokuapp.com/
+
+From the pudding
+https://pudding.cool/2017/03/bechdel/
+
+Visualizing the Bechdel test
+http://tenchocolatesundaes.blogspot.se/2013/06/visualizing-bechdel-test.html
+
+bechdel dataset variables
+imdbid	title	id	year	rating
+
+imdbid	The IMDb id.
+title	The title of the movie. Any weird characters are HTML encoded (so Brüno is returned as "Br&uuml;no").
+id	The bechdeltest.com unique id.
+year	The year this movie was released (according to IMDb).
+rating	The actual score. Number from 0 to 3 (0 means no two women, 1 means no talking, 2 means talking about a man, 3 means it passes the test).
