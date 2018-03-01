@@ -1,0 +1,19 @@
+Action -------
+Adventure
+Animation
+Biography
+Comedy -------------
+Crime
+Documentary
+Drama -----------
+Family
+Fantasy -------------
+History
+Horror
+Mystery
+Romance
+Sci-Fi
+Sport
+Thriller --------
+War
+Western
