@@ -3,14 +3,16 @@ queue()
     .await(ready);
 
 var view;
-
+var table;
+var app;
 function ready(error, data){
 	if(error) throw error;
 
 	view = new viewport(data);
+	app = new apple(data);
 	console.log("Got into the ready function.");
 	console.log(data.length);
-
+/*
 	var movietitles = [];
 	data.forEach(function(d){ 
 		var t = d["movie_title"];
@@ -23,7 +25,7 @@ function ready(error, data){
 	});
 	//console.log(movietitles);
 
-	console.log("Movietitles: " + movietitles.length);
+	console.log("Movietitles: " + movietitles.length);*/
 	data = preprocess(data);
 
 	console.log(data);
@@ -49,7 +51,9 @@ function ready(error, data){
 		}
 
 	});
-
+	
+	
+	table = new tablelens(data);
 
 	console.log(top50);
 
@@ -67,14 +71,13 @@ function preprocess(data){
 			t.trim();
 			d["movie_title"] = t.slice(0, -2);
 		}
+		
+		//Ta bort rating > 10
 		if(typeof(t) == "undefined" || typeof(s) == "undefined" || s.charAt(1) != "."){
 			var i = data.indexOf(d);
 			//Remove data point
 			data.splice(i, 1); 
 		}
-
-		
-		
 
 	});
 	return data;
