@@ -2,6 +2,10 @@
     background-color: red;
 }
 
-#viewport {
-
+.movie {
+    height: 220px;
+    background-repeat: no-repeat;
+    background-position: center; 
 }
+
+
