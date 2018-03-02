@@ -3,8 +3,10 @@
     min-height: 100vh;
 }
 
-#viewport {
-
+.movie {
+    height: 220px;
+    background-repeat: no-repeat;
+    background-position: center; 
 }
 
 #table-lens {
