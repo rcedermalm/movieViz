@@ -10,22 +10,6 @@ function viewport(data){
         }
     }
     dataArray.push(data[74]);
-    /*
-    var c1 = 0, c2 = 0, c3 = 0, c4 = 0;
-
-    for(var i = 0; i < data.length; i++){
-        if(data[i].imdb_score){
-            if(data[i].imdb_score < 5.8){
-                c1++;
-            } else if(data[i].imdb_score < 6.6){
-                c2++;
-            } else if(data[i].imdb_score < 7.3){
-                c3++;
-            } else {
-                c4++;
-            }
-        }
-    }*/
 
     var view = '#viewport';
     var width = height = 150;
@@ -56,7 +40,7 @@ function viewport(data){
             .attr("class", "movie-year")
             .text("(" + dataArray[i].title_year + ")");
 
-        colourDots(trimGenres(dataArray[i].genres), id, size);
+        createBackground(dataArray[i], id, size);
     }
 
     // Returns the size for the SVG so that the size of the star
@@ -138,9 +122,11 @@ function viewport(data){
     // _genres: An array of strings, important that it has been preprocessed so that it only uses the following
     //          strings: "Action", "Comedy", "Drama", "Fantasy", "Thriller"
     // id:      The id of the object that should get the background image
-    function colourDots(_genres, id, size){
+    function createBackground(dataPoint, id, size){
         svgString = "<svg xmlns='http://www.w3.org/2000/svg' width='" + size + "' height='" + size + "'>";
         
+        var _genres = trimGenres(dataPoint.genres)
+
         switch(_genres.length) {
             case 1: 
                 svgString = svgString + oneGenre(_genres, size);
@@ -158,6 +144,9 @@ function viewport(data){
                 svgString = svgString + fiveGenres(_genres, size);
                 break;
         }
+
+        svgString = svgString + durationToDots(dataPoint, size);
+
         svgString = svgString + "</svg>";
         var urlSVG = "data:image/svg+xml, " + svgString;
         $('#'+ id).css('background-image', 'url("' + urlSVG + '")');
@@ -210,5 +199,44 @@ function viewport(data){
             _colours[i] = colours[genres.findIndex(genre => genre === _genres[i])];
         }
         return _colours;
+    }
+
+    // Returns the SVG string so the number of circles around the star
+    // corresponds to the duration of the movie (One dot per half an hour)
+    function durationToDots(dataPoint, size){
+        var duration = parseInt(dataPoint.duration);
+        var positions = createSmallDotArray(size);
+        var svgString;
+
+        for(var i = 30; i < 360; i = i+30){
+            if(duration > i){
+                var index = Math.floor(Math.random()*positions.length);
+                svgString = svgString + positions[index];
+                positions.splice(index,1);
+            } else {
+                break;
+            }
+        }
+
+        return svgString;
+    }
+
+    // Creates the array used for creating the "small circle" - array for the durationToDots function
+    function createSmallDotArray(size){
+        var positions = [];
+        positions.push("<circle cx='" + 0.38 * size + "' cy='" + 0.04 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.14 * size + "' cy='" + 0.16 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");      
+        positions.push("<circle cx='" + 0.04 * size + "' cy='" + 0.39 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>"); 
+        positions.push("<circle cx='" + 0.04 * size + "' cy='" + 0.61 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.38 * size + "' cy='" + 0.96 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.14 * size + "' cy='" + 0.84 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.62 * size + "' cy='" + 0.04 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.86 * size + "' cy='" + 0.16 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");      
+        positions.push("<circle cx='" + 0.96 * size + "' cy='" + 0.39 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>"); 
+        positions.push("<circle cx='" + 0.96 * size + "' cy='" + 0.61 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.62 * size + "' cy='" + 0.96 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.86 * size + "' cy='" + 0.84 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
+    
+        return positions;
     }
 }
