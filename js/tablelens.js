@@ -8,6 +8,20 @@
 function tablelens(data){
 	console.log("Found the table lens.");
 	var div = '#table-lens';
+	console.log(data);
+	var props = Object.getOwnPropertyNames(data[0]);
+	var property = props[1];
+	console.log("Hej");
+	console.log(property);
+	
+	// format the data, string -> int?
+	data.forEach(function(d) {
+	d[property] = +d[property];
+	});
+	
+	data = data.sort(function (a, b) {
+            return d3.ascending(a[property], b[property]);
+        })
 	
 	// set the dimensions and margins of the graph
 	var parentWidth = $(div).parent().width();
@@ -35,13 +49,10 @@ function tablelens(data){
 			  "translate(" + margin.left + "," + margin.top + ")");
 			  
 			  
-	// format the data, string -> int?
-	data.forEach(function(d) {
-	d.gross = +d.gross;
-	});
+	
 	
 	 // Scale the range of the data in the domains
-	x.domain([0, d3.max(data, function(d){ return d.gross; })])
+	x.domain([0, d3.max(data, function(d){ return d[property]; })])
 	y.domain(data.map(function(d) { return d.movie_title; }));
 	
 	// append the rectangles for the bar chart
@@ -49,19 +60,19 @@ function tablelens(data){
 	  .data(data)
 	.enter().append("rect")
 	  .attr("class", "bar")
-	  //.attr("x", function(d) { return x(d.sales); })
-	  .attr("width", function(d) {return x(d.gross); } )
+	  //.attr("x", function(d) { return x(d.gross); })
+	  .attr("width", function(d) {return x(d[property]); } )
 	  .attr("y", function(d) { return y(d.movie_title); })
 	  .attr("height", y.bandwidth());
 	  
 	// add the x Axis
-	svg.append("g")
+	/*svg.append("g")
 	  .attr("transform", "translate(0," + height + ")")
 	  .call(d3.axisBottom(x));
-
+*/
 	// add the y Axis
-	svg.append("g")
-	  .call(d3.axisLeft(y));
+	//svg.append("g")
+	//  .call(d3.axisLeft(y));
 		  
 }
 	
