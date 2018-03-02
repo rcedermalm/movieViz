@@ -81,10 +81,10 @@ function viewport(data){
     function fiveGenres(_genres){
         var colour = getColours(_genres);
         return "<circle cx='" + width/2 + "' cy='" + height/2.8 + "' r='25' opacity='" + opac + "' fill='" + colour[0] + "'></circle>" + 
-               "<circle cx='" + width/2.8 + "' cy='" + height/2 + "' r='25' opacity='" + opac + "' fill='" + colour[0] + "'></circle>" + 
-               "<circle cx='" + 1.8 * width/2.8 + "' cy='" +  height/2 + "' r='25' opacity='" + opac + "' fill='" + colour[1] + "'></circle>" + 
-               "<circle cx='" + width/2.3 + "' cy='" + 1.8 * height/2.8 + "' r='25' opacity='" + opac + "' fill='" + colour[2] + "'></circle>" + 
-               "<circle cx='" + 1.35 * width/2.3 + "' cy='" + 1.8 * height/2.8 + "' r='25' opacity='" + opac + "' fill='" + colour[3] + "'></circle>";
+               "<circle cx='" + width/2.8 + "' cy='" + height/2 + "' r='25' opacity='" + opac + "' fill='" + colour[1] + "'></circle>" + 
+               "<circle cx='" + 1.8 * width/2.8 + "' cy='" +  height/2 + "' r='25' opacity='" + opac + "' fill='" + colour[2] + "'></circle>" + 
+               "<circle cx='" + width/2.3 + "' cy='" + 1.8 * height/2.8 + "' r='25' opacity='" + opac + "' fill='" + colour[3] + "'></circle>" + 
+               "<circle cx='" + 1.35 * width/2.3 + "' cy='" + 1.8 * height/2.8 + "' r='25' opacity='" + opac + "' fill='" + colour[4] + "'></circle>";
     }
 
     // Returns the colours for the different given genres
