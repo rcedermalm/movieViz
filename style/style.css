@@ -1,5 +1,6 @@
 #sidebar {
-    background-color: red;
+    background-color:rgb(139, 13, 13);
+    min-height: 100vh;
 }
 
 .movie {
@@ -8,4 +9,10 @@
     background-position: center; 
 }
 
+#table-lens {
+	background-color: white;
+}
 
+.bar rect {
+  fill: red;
+}
