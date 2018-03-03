@@ -83,7 +83,7 @@ function preprocess(data){
 
 		if(typeof(t) != "undefined"){
 			t.trim();
-			d["movie_title"] = t.slice(0, -2);
+			d["movie_title"] = t.slice(0, -1);
 		}
 		
 		//Ta bort rating > 10
