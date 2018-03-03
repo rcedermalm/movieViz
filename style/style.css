@@ -9,6 +9,35 @@
     background-position: center; 
 }
 
+.extra-info {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+#info-title {
+    font-weight: bold;
+    margin: 0;
+    font-size: 16px;
+}
+
+#info-genres {
+    margin-bottom: 5px;
+    font-size: 11px;
+}
+
+.info-key {
+    margin: 0;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.info-value {
+    margin: 0;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
 #table-lens {
 	background-color: white;
 }

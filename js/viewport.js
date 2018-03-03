@@ -1,9 +1,13 @@
 var genres = ["Action", "Comedy", "Drama", "Fantasy", "Other"];
 var colours = ["red", "blue", "orange", "green", "yellow"];
+var dataArray = [];
+
 
 function viewport(data){
+    var view = '#viewport';
+    var width = height = 150;
+    var opac = 0.4;
 
-    var dataArray = [];
     for(var i = 0; i < 10; i++){
         if(data[i].gross){
         dataArray.push(data[i]);
@@ -11,14 +15,20 @@ function viewport(data){
     }
     dataArray.push(data[74]);
 
-    var view = '#viewport';
-    var width = height = 150;
-    var opac = 0.4;
+    console.log(dataArray)
+
+    //initialize tooltip
+    var tooltip = d3.select(view).append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
     for(var i = 0; i < dataArray.length; i++){
         var id = "slot" + i;
         var grossSVG = grossToPoints(dataArray[i]); 
         var size = ratingToSize(dataArray[i]);
+        var index = parseInt(id.charAt(4));
+
+        console.log(dataArray[i].movie_title)
 
         var movie = d3.select("#col"+(i+1)).append("object")
             .attr("type", "image/svg+xml")
@@ -26,7 +36,12 @@ function viewport(data){
             .attr("width", size)
             .attr("height", size)
             .attr("id", id)
-            .attr("class",  "movie");
+            .attr("class",  "movie")
+            .on("mouseover", function(){           
+                var index = parseInt(this.id.charAt(4)); 
+                handleMouseOver(dataArray[index], index);
+            })
+            .on("mouseout", handleMouseOut);
 
         var movieText = d3.select("#col"+(i+1))
             .append('div')
@@ -41,6 +56,53 @@ function viewport(data){
             .text("(" + dataArray[i].title_year + ")");
 
         createBackground(dataArray[i], id, size);
+    }
+    
+    // Handles what should happen when the mouse is over a movie
+    function handleMouseOver(d, i) {
+        tooltip.transition()
+            .duration(200)
+            .style("opacity", .9);
+
+        var boundRect = document.getElementById('col' + (parseInt(i)+1)).getBoundingClientRect();
+        var boundRectFirstSlot =  document.getElementById('col1').getBoundingClientRect();
+        var top = boundRect.y - boundRectFirstSlot.y;
+        var left = boundRect.x - boundRectFirstSlot.x;
+
+        var infoHeight = boundRect.height;
+        var infoWidth = boundRect.width;
+
+        //console.log(dataArray)
+
+        var extraInfo = "<p id='info-title'>" + dataArray[i].movie_title + "</p>" +
+                        "<p id='info-genres'>" + d.genres + "</p>" + 
+                        "<p class='info-key'>Director:</p><p class='info-value'>" + d.director_name + "</p>" +
+                        "<p class='info-key'>Actors:</p><p class='info-value'>" + d.actor_1_name + ", " + d.actor_2_name + ", " + d.actor_3_name + "</p>" +
+                        "<p class='info-key'>Gross:</p><p class='info-value'>" + fixGross(d) + " dollars</p>" + 
+                        "<p class='info-key'>Duration:</p><p class='info-value'>" + d.duration + " minutes</p>" + 
+                        "<p class='info-key'>IMDB score:</p><p class='info-value'>" + d.imdb_score + "</p>" ; 
+
+        tooltip.attr("style", "left:"+ left +"px;top:"+ top +"px; pointer-events: none;")
+            .html("<div class='extra-info' id='extra" + i + "' style='height: " + infoHeight + "px; width: " + infoWidth + "px;'>" + extraInfo + "</div>");
+    }
+
+    // Returns a more compact and readable gross, eg. 215742875 => 215.7M
+    function fixGross(d){
+        var gross = parseInt(d.gross);
+        if(gross >= 1000000){
+            return "" + (gross/1000000).toFixed(1) + "M";
+        } else if(gross >= 1000){
+            return "" + (gross/1000).toFixed(1) + "K";
+        } else {
+            return d.gross;
+        }
+    }
+
+    // Handles what should happen when the mouse leaves the movie
+    function handleMouseOut() {
+        tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
     }
 
     // Returns the size for the SVG so that the size of the star
