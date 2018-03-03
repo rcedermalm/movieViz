@@ -17,12 +17,13 @@ function ready(error, data){
 	console.log("processed size: " + data.length);
 	
 	var grossList = [];
+	var budgetList = [];
 	
 	data.forEach(function(d){ 
 		var t = d["movie_title"];
 		var s = d.gross;
 		
-		grossList.push({movie_title: t, gross:s});;
+		grossList.push({movie_title: t, gross:s, facebook_likes:d.movie_facebook_likes});
 
 	});
 	

@@ -9,10 +9,15 @@
     background-position: center; 
 }
 
-#table-lens {
-	background-color: white;
+.table-lens {
+    background-color: black;
+    background-position: center; 
+}
+.lenstitle{
+    fill: white;
 }
 
-.bar rect {
-  fill: red;
+.bar {
+  fill:aqua;
 }
+
