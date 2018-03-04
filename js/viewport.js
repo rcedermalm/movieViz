@@ -15,7 +15,16 @@ function viewport(data){
     }
     dataArray.push(data[74]);
 
-    console.log(dataArray)
+    // Initalize box info
+    var infoButton = d3.select(view).append("div")
+        .attr("id", "info-button")
+        .on("mouseover", handleMouseOverInfo)
+        .on("mouseout", handleMouseOutInfo);
+
+    var boxInfo = d3.select(view).append("div")
+        .attr("class", "box-info")
+        .style("opacity", 0);
+
 
     //initialize tooltip
     var tooltip = d3.select(view).append("div")
@@ -27,8 +36,6 @@ function viewport(data){
         var grossSVG = grossToPoints(dataArray[i]); 
         var size = ratingToSize(dataArray[i]);
         var index = parseInt(id.charAt(4));
-
-        console.log(dataArray[i].movie_title)
 
         var movie = d3.select("#col"+(i+1)).append("object")
             .attr("type", "image/svg+xml")
@@ -57,6 +64,71 @@ function viewport(data){
 
         createBackground(dataArray[i], id, size);
     }
+
+    // Handles what should happen when the mouse is over tbe info "button"
+    function handleMouseOverInfo(){
+        var viewSize = document.getElementById('viewport').getBoundingClientRect();
+        var width = viewSize.width-340 + "px";
+        var height = viewSize.height-200 + "px";
+
+        boxInfo.transition()
+            .duration(200)
+            .style("opacity", 1);
+
+        var htmlInfo =  "<div class='row'>" + 
+                            "<div class='col' align='center'><p class='box-info-main-title'>Representation Information</p></div>" + 
+                        "</div>" + 
+                        "<div class='row'>" + 
+                            "<div class='col' align='center'><p class='box-info-title'>Gross</p></div>" + 
+                        "</div>" + 
+                        "<div class='row'>" +
+                            "<div class='col' align='center'><img src='images/5points.svg'><p class='box-info-value'>10M</p></div>" +
+                            "<div class='col' align='center'><img src='images/7points.svg'><p class='box-info-value'>50M</p></div>" + 
+                            "<div class='col' align='center'><img src='images/9points.svg'><p class='box-info-value'>200M</p></div>" +
+                            "<div class='col' align='center'><img src='images/11points.svg'><p class='box-info-value'>>200M</p></div>" +
+                        "</div>" + 
+                        "<div class='row'>" + 
+                            "<div class='col' align='center'><p class='box-info-title'>Genre</p></div>" + 
+                        "</div>" + 
+                        "<div class='row'>" +
+                            "<div class='col' align='center'><img src='images/Red.svg'><p class='box-info-value'>Action</p></div>" +
+                            "<div class='col' align='center'><img src='images/Blue.svg'><p class='box-info-value'>Comedy</p></div>" + 
+                            "<div class='col' align='center'><img src='images/Orange.svg'><p class='box-info-value'>Drama</p></div>" +
+                            "<div class='col' align='center'><img src='images/Green.svg'><p class='box-info-value'>Fantasy</p></div>" +
+                            "<div class='col' align='center'><img src='images/Yellow.svg'><p class='box-info-value'>Other</p></div>" +
+                        "</div>" +
+                        "<div class='row'>" + 
+                            "<div class='col' align='center'><p class='box-info-title'>IMDB score</p></div>" + 
+                        "</div>" + 
+                        "<div class='row'>" +
+                            "<div class='col info-star-size' id='small' align='center'></div>" +
+                            "<div class='col info-star-size' id='mid-small' align='center'></div>" + 
+                            "<div class='col info-star-size' id='mid-large' align='center'></div>" +
+                            "<div class='col info-star-size' id='large' align='center'></div>" +
+                        "</div>" +
+                        "<div class='row'>" +
+                            "<div class='col' align='center'><p class='box-info-value'>5.8</p></div>" +
+                            "<div class='col' align='center'><p class='box-info-value'>6.6</p></div>" + 
+                            "<div class='col' align='center'><p class='box-info-value'>7.3</p></div>" +
+                            "<div class='col' align='center'><p class='box-info-value'>>7.3</p></div>" +
+                        "</div>" + 
+                        "<div class='row'>" + 
+                            "<div class='col' align='center'><p class='box-info-title'>Duration</p></div>" + 
+                        "</div>" + 
+                        "<div class='row'>" +
+                            "<div class='col' align='center'><p class='box-info-value'><svg width='10' height='10'><circle cx='5' cy='5' r='3' stroke='black' stroke-width='1' fill='white'></circle></svg> - Every circle around the stars represents 30 minutes of screen time.</p></div>" +
+                        "</div>";
+
+        boxInfo.attr("style", "width:" + width + "; height:670px;pointer-events: none;")
+            .html(htmlInfo)
+    }
+
+    // Handles what should happen when the mouse leaves the info "button"
+    function handleMouseOutInfo() {
+        boxInfo.transition()
+            .duration(500)
+            .style("opacity", 0);
+    }
     
     // Handles what should happen when the mouse is over a movie
     function handleMouseOver(d, i) {
@@ -64,15 +136,15 @@ function viewport(data){
             .duration(200)
             .style("opacity", .9);
 
+        var titleRect = document.getElementById('main-title').getBoundingClientRect();
+
         var boundRect = document.getElementById('col' + (parseInt(i)+1)).getBoundingClientRect();
         var boundRectFirstSlot =  document.getElementById('col1').getBoundingClientRect();
-        var top = boundRect.y - boundRectFirstSlot.y;
+        var top = boundRect.y - boundRectFirstSlot.y + titleRect.height;
         var left = boundRect.x - boundRectFirstSlot.x;
 
         var infoHeight = boundRect.height;
         var infoWidth = boundRect.width;
-
-        //console.log(dataArray)
 
         var extraInfo = "<p id='info-title'>" + dataArray[i].movie_title + "</p>" +
                         "<p id='info-genres'>" + d.genres + "</p>" + 
@@ -140,19 +212,19 @@ function viewport(data){
 
         switch(true){
             case (gross < 10000000) : {
-                grossSVG = "SVG/5points.svg"
+                grossSVG = "images/5points.svg"
                 break;
             }
             case (gross < 50000000) : {
-                grossSVG = "SVG/7points.svg"
+                grossSVG = "images/7points.svg"
                 break;
             }
             case (gross < 200000000) : {
-                grossSVG = "SVG/9points.svg"
+                grossSVG = "images/9points.svg"
                 break;
             }
             case (gross >= 200000000) : {
-                grossSVG = "SVG/11points.svg"
+                grossSVG = "images/11points.svg"
                 break;
             }
         }
