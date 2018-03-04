@@ -15,7 +15,6 @@ function viewport(data){
     }
     dataArray.push(data[74]);
 
-   //console.log(dataArray)
 
     //initialize tooltip
     var tooltip = d3.select(view).append("div")
@@ -28,7 +27,6 @@ function viewport(data){
         var size = ratingToSize(dataArray[i]);
         var index = parseInt(id.charAt(4));
 
-       // console.log(dataArray[i].movie_title)
 
         var movie = d3.select("#col"+(i+1)).append("object")
             .attr("type", "image/svg+xml")
