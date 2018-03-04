@@ -9,12 +9,19 @@ function ready(error, data){
 	if(error) throw error;
 
 	view = new viewport(data);
-	app = new apple(data);
-	console.log("Got into the ready function.");
-	console.log("size: " + data.length);
-
 	data = preprocess(data);
-	console.log("processed size: " + data.length);
+
+
+	/*var movietitles = [];
+	data.forEach(function(d){ 
+		var t = d["movie_title"];
+		if(typeof(t) == "string"){
+			movietitles.push(t);
+		}
+
+	});
+*/
+	var list = new listmovies(data);
 	
 	var grossList = [];
 	var budgetList = [];
@@ -47,7 +54,6 @@ function ready(error, data){
 	var scores = [];
 	data.forEach(function(d){ 
 		var t = d["imdb_score"];
-		console.log(typeof(t));
 		if(typeof(t) != "undefined"){
 			scores.push(t);
 		}
@@ -55,7 +61,7 @@ function ready(error, data){
 	});
 	
 	
-	table = new tablelens(grossList);
+	//table = new tablelens(grossList);
 
 	//console.log(data);
 

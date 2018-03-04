@@ -9,17 +9,13 @@
     background-position: center; 
 }
 
-.table-lens {
-    background-color: black;
-    background-position: center; 
-}
-
-.lenstitle{
-    fill: white;
-}
-.bar {
-    fill:aqua;
+.movielist {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 400px;
+    height: 500px;
+    position: relative;
   }
+  
 
 
 .extra-info {
