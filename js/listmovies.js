@@ -11,13 +11,16 @@ var movietitles = [];
 });
 
 $('#myList').on('click', 'li', function (){
-    console.log($(this).text());
+    var w = $(this).attr('id');
+    w= w.substring(1);
+    console.log(w);
+    console.log(movietitles[parseInt(w)]);
     $(this).fadeOut(500);
 });
 
     for(var i = 0; i < movietitles.length; i++){
-        var id = "btn";
-        var moviebtn ="<li class='list-group-item' id='"+id+"' value='"+i+"'>" + movietitles[i] +"</li>"; 
+        var id = "m"+i;
+        var moviebtn ="<li class='list-group-item' id='"+id+"'>" + movietitles[i] +"</li>"; 
 
         $("#myList").append(moviebtn);
     }
