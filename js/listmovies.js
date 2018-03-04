@@ -13,7 +13,7 @@ var movietitles = [];
 $('#myList').on('click', 'li', function (){
     var w = $(this).attr('id');
     w= w.substring(1);
-    console.log(w);
+    //console.log(w);
     console.log(movietitles[parseInt(w)]);
     $(this).fadeOut(500);
 });

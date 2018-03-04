@@ -1,14 +1,18 @@
 #sidebar {
     background-color:rgb(139, 13, 13);
     min-height: 100vh;
+    align-items: center;
 }
 
 #main-title {
     font-size: 30px;
+    color: white;
     font-weight: bold;
     padding: 20px;
     height: 80px;
 }
+
+
 
 .movie {
     height: 220px;
@@ -16,11 +20,17 @@
     background-position: center; 
 }
 
+
+
 .movielist {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-position: center; 
     width: 400px;
-    height: 500px;
-    position: relative;
+    height: 100%;
+    position: center;
+    max-height: 800px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   
 
