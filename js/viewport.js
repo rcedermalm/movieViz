@@ -1,19 +1,46 @@
 var genres = ["Action", "Comedy", "Drama", "Fantasy", "Other"];
 var colours = ["red", "blue", "orange", "green", "yellow"];
 var dataArray = [];
+var maximumMovies = 8;
+
+function addMovie(d){
+    if(dataArray.length < maximumMovies){
+        dataArray.push(d);
+        clearMovies();
+    } else {
+        alert("You have to remove a movie first. Click on the movie you want to remove to remove it.");
+    }
+
+}
+
+function removeMovie(id){
+    dataArray.splice(id, 1);
+    clearMovies();
+}
+
+function clearMovies(){
+    var tooltipNode = document.getElementById("tooltip-info");
+    tooltipNode.parentNode.removeChild(tooltipNode);
+    var infoButtonNode = document.getElementById("info-button");
+    infoButtonNode.parentNode.removeChild(infoButtonNode);
+    var boxInfoNode = document.getElementById("box-info-popup");
+    boxInfoNode.parentNode.removeChild(boxInfoNode);
+
+    for(var i = 1; i <= maximumMovies; i++){
+        var myNode = document.getElementById("col"+i);
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+    }
+
+    viewport();
+}
 
 
-function viewport(data){
+function viewport(){
     var view = '#viewport';
     var width = height = 150;
     var opac = 0.4;
-
-    for(var i = 0; i < 10; i++){
-        if(data[i].gross){
-        dataArray.push(data[i]);
-        }
-    }
-    dataArray.push(data[74]);
 
     // Initalize box info
     var infoButton = d3.select(view).append("div")
@@ -23,12 +50,14 @@ function viewport(data){
 
     var boxInfo = d3.select(view).append("div")
         .attr("class", "box-info")
+        .attr("id", "box-info-popup")
         .style("opacity", 0);
 
 
     //initialize tooltip
     var tooltip = d3.select(view).append("div")
         .attr("class", "tooltip")
+        .attr("id", "tooltip-info")
         .style("opacity", 0);
 
     for(var i = 0; i < dataArray.length; i++){
@@ -44,11 +73,18 @@ function viewport(data){
             .attr("height", size)
             .attr("id", id)
             .attr("class",  "movie")
+            .attr("style", "pointer-events: none;");
+
+        d3.select("#col"+(i+1))
             .on("mouseover", function(){           
-                var index = parseInt(this.id.charAt(4)); 
+                var index = parseInt(this.id.charAt(3)) - 1; 
                 handleMouseOver(dataArray[index], index);
             })
-            .on("mouseout", handleMouseOut);
+            .on("mouseout", handleMouseOut)
+            .on("click", function() {
+                var index = parseInt(this.id.charAt(3)) - 1; 
+                handleMouseClick(index);
+            });
 
         var movieText = d3.select("#col"+(i+1))
             .append('div')
@@ -130,8 +166,19 @@ function viewport(data){
             .style("opacity", 0);
     }
     
+    function handleMouseClick(i){
+        tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+        removeMovie(i);
+    }
+
     // Handles what should happen when the mouse is over a movie
     function handleMouseOver(d, i) {
+        if(!dataArray[i]){
+            return;
+        }
+
         tooltip.transition()
             .duration(200)
             .style("opacity", .9);
@@ -152,10 +199,11 @@ function viewport(data){
                         "<p class='info-key'>Actors:</p><p class='info-value'>" + d.actor_1_name + ", " + d.actor_2_name + ", " + d.actor_3_name + "</p>" +
                         "<p class='info-key'>Gross:</p><p class='info-value'>" + fixGross(d) + " dollars</p>" + 
                         "<p class='info-key'>Duration:</p><p class='info-value'>" + d.duration + " minutes</p>" + 
-                        "<p class='info-key'>IMDB score:</p><p class='info-value'>" + d.imdb_score + "</p>" ; 
+                        "<p class='info-key'>IMDB score:</p><p class='info-value'>" + d.imdb_score + "</p>"; 
 
         tooltip.attr("style", "left:"+ left +"px;top:"+ top +"px; pointer-events: none;")
             .html("<div class='extra-info' id='extra" + i + "' style='height: " + infoHeight + "px; width: " + infoWidth + "px;'>" + extraInfo + "</div>");
+    
     }
 
     // Returns a more compact and readable gross, eg. 215742875 => 215.7M

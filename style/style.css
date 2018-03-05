@@ -32,6 +32,7 @@
     background-color: white;
     padding: 20px;
     text-align: center;
+    pointer-events: none;
 }
 
 .tooltip {
@@ -121,6 +122,9 @@
 
 .box-info-value {
     font-size: 11px;
+}
+
+.cross {
 }
 
 

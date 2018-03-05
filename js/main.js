@@ -9,6 +9,14 @@ function ready(error, data){
 	if(error) throw error;
 
 	view = new viewport(data);
+	addMovie(data[1]);
+	addMovie(data[154]);
+	addMovie(data[541]);
+	addMovie(data[621]);
+	addMovie(data[115]);
+	addMovie(data[4563]);
+	addMovie(data[785]);
+	addMovie(data[453]);
 	app = new apple(data);
 	console.log("Got into the ready function.");
 	console.log("size: " + data.length);
