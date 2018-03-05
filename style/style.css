@@ -130,12 +130,6 @@
     font-size: 11px;
 }
 
-.cross {
-}
-
-
-
-
 input[type=text] {
     width: 130px;
     -webkit-transition: width 0.4s ease-in-out;

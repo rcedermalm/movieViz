@@ -15,6 +15,7 @@ $('#myList').on('click', 'li', function (){
     w= w.substring(1);
     //console.log(w);
     console.log(movietitles[parseInt(w)]);
+    addMovie(data[parseInt(w)]);
     $(this).fadeOut(500);
 });
 
