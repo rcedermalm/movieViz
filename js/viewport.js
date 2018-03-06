@@ -1,5 +1,5 @@
 var genres = ["Action", "Comedy", "Drama", "Fantasy", "Other"];
-var colours = ["red", "blue", "orange", "green", "yellow"];
+var colours = ["red", "orange", "blue", "green", "yellow"];
 var dataArray = [];
 var maximumMovies = 15;
 
@@ -45,6 +45,12 @@ function viewport(){
     var sidebar = '#sidebar';
     var width = height = 150;
     var opac = 0.4;
+
+    if(dataArray.length == 0){
+        document.getElementById('placeholder-text').style.display = "block";
+    } else {
+        document.getElementById('placeholder-text').style.display = "none";
+    }
 
     var viewRect = document.getElementById('viewport').getBoundingClientRect();
     var left = viewRect.left;
@@ -141,8 +147,8 @@ function viewport(){
                         "</div>" + 
                         "<div class='row'>" +
                             "<div class='col' align='center'><img src='images/Red.svg'><p class='box-info-value'>Action</p></div>" +
-                            "<div class='col' align='center'><img src='images/Blue.svg'><p class='box-info-value'>Comedy</p></div>" + 
-                            "<div class='col' align='center'><img src='images/Orange.svg'><p class='box-info-value'>Drama</p></div>" +
+                            "<div class='col' align='center'><img src='images/Orange.svg'><p class='box-info-value'>Comedy</p></div>" + 
+                            "<div class='col' align='center'><img src='images/Blue.svg'><p class='box-info-value'>Drama</p></div>" +
                             "<div class='col' align='center'><img src='images/Green.svg'><p class='box-info-value'>Fantasy</p></div>" +
                             "<div class='col' align='center'><img src='images/Yellow.svg'><p class='box-info-value'>Other</p></div>" +
                         "</div>" +

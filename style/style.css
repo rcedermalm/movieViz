@@ -1,6 +1,5 @@
 #sidebar {
     background-color:rgb(139, 13, 13);
-    /*height: 100vh;*/
     align-items: center;
 }
 
@@ -10,6 +9,11 @@
     font-weight: bold;
     padding: 20px 20px 0px 20px;
     margin-bottom: 0;
+}
+#placeholder-text {
+    text-align: center;
+    margin-top: 300px;
+    opacity: 0.8;
 }
 
 #main-text {
