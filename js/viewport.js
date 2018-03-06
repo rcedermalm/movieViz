@@ -1,7 +1,7 @@
 var genres = ["Action", "Comedy", "Drama", "Fantasy", "Other"];
 var colours = ["red", "blue", "orange", "green", "yellow"];
 var dataArray = [];
-var maximumMovies = 10;
+var maximumMovies = 15;
 
 function addMovie(d){
     if(dataArray.length < maximumMovies){
@@ -60,6 +60,7 @@ function viewport(){
         .attr("class", "box-info")
         .attr("id", "box-info-popup")
         .style("opacity", 0);
+		
 
 
     //initialize tooltip
@@ -84,8 +85,12 @@ function viewport(){
             .attr("style", "pointer-events: none;");
 
         d3.select("#col"+(i+1))
-            .on("mouseover", function(){           
-                var index = parseInt(this.id.charAt(3)) - 1; 
+            .on("mouseover", function(){      
+				if(this.id.length == 5){
+					var index = parseInt(this.id.charAt(3) + this.id.charAt(4)) - 1; 
+				} else {
+					var index = parseInt(this.id.charAt(3)) - 1; 
+				}
                 handleMouseOver(dataArray[index], index);
             })
             .on("mouseout", handleMouseOut)
@@ -163,7 +168,7 @@ function viewport(){
                             "<div class='col' align='center'><p class='box-info-value'><svg width='10' height='10'><circle cx='5' cy='5' r='3' stroke='black' stroke-width='1' fill='white'></circle></svg> - Every circle around the stars represents 30 minutes of screen time.</p></div>" +
                         "</div>";
 
-        boxInfo.attr("style", "width:" + width + "; height:670px;pointer-events: none;")
+        boxInfo.attr("style", "width:" + width + ";pointer-events: none;")
             .html(htmlInfo)
     }
 
