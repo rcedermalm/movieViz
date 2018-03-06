@@ -1,19 +1,22 @@
 var genres = ["Action", "Comedy", "Drama", "Fantasy", "Other"];
 var colours = ["red", "blue", "orange", "green", "yellow"];
 var dataArray = [];
-var maximumMovies = 8;
+var maximumMovies = 10;
 
 function addMovie(d){
     if(dataArray.length < maximumMovies){
         dataArray.push(d);
         clearMovies();
+        return true;
     } else {
         alert("You have to remove a movie first. Click on the movie you want to remove to remove it.");
+        return false;
     }
 
 }
 
 function removeMovie(id){
+    removeHighlight(dataArray[id].movie_title);
     dataArray.splice(id, 1);
     clearMovies();
 }
@@ -39,14 +42,19 @@ function clearMovies(){
 
 function viewport(){
     var view = '#viewport';
+    var sidebar = '#sidebar';
     var width = height = 150;
     var opac = 0.4;
+
+    var viewRect = document.getElementById('viewport').getBoundingClientRect();
+    var left = viewRect.left;
 
     // Initalize box info
     var infoButton = d3.select(view).append("div")
         .attr("id", "info-button")
         .on("mouseover", handleMouseOverInfo)
-        .on("mouseout", handleMouseOutInfo);
+        .on("mouseout", handleMouseOutInfo)
+        .style("left", left);
 
     var boxInfo = d3.select(view).append("div")
         .attr("class", "box-info")
@@ -104,8 +112,8 @@ function viewport(){
     // Handles what should happen when the mouse is over tbe info "button"
     function handleMouseOverInfo(){
         var viewSize = document.getElementById('viewport').getBoundingClientRect();
-        var width = viewSize.width-340 + "px";
-        var height = viewSize.height-200 + "px";
+        var width = viewSize.width-400 + "px";
+       // var height = viewSize.height + "px";
 
         boxInfo.transition()
             .duration(200)
@@ -183,11 +191,11 @@ function viewport(){
             .duration(200)
             .style("opacity", .9);
 
-        var titleRect = document.getElementById('main-title').getBoundingClientRect();
+        //var titleRect = document.getElementById('main-title').getBoundingClientRect();
 
         var boundRect = document.getElementById('col' + (parseInt(i)+1)).getBoundingClientRect();
         var boundRectFirstSlot =  document.getElementById('col1').getBoundingClientRect();
-        var top = boundRect.y - boundRectFirstSlot.y + titleRect.height;
+        var top = boundRect.y - boundRectFirstSlot.y + 50;
         var left = boundRect.x - boundRectFirstSlot.x;
 
         var infoHeight = boundRect.height;
@@ -406,18 +414,18 @@ function viewport(){
     // Creates the array used for creating the "small circle" - array for the durationToDots function
     function createSmallDotArray(size){
         var positions = [];
-        positions.push("<circle cx='" + 0.38 * size + "' cy='" + 0.04 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
-        positions.push("<circle cx='" + 0.14 * size + "' cy='" + 0.16 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");      
-        positions.push("<circle cx='" + 0.04 * size + "' cy='" + 0.39 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>"); 
-        positions.push("<circle cx='" + 0.04 * size + "' cy='" + 0.61 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
-        positions.push("<circle cx='" + 0.38 * size + "' cy='" + 0.96 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
-        positions.push("<circle cx='" + 0.14 * size + "' cy='" + 0.84 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
-        positions.push("<circle cx='" + 0.62 * size + "' cy='" + 0.04 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
-        positions.push("<circle cx='" + 0.86 * size + "' cy='" + 0.16 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");      
-        positions.push("<circle cx='" + 0.96 * size + "' cy='" + 0.39 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>"); 
-        positions.push("<circle cx='" + 0.96 * size + "' cy='" + 0.61 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
-        positions.push("<circle cx='" + 0.62 * size + "' cy='" + 0.96 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
-        positions.push("<circle cx='" + 0.86 * size + "' cy='" + 0.84 * size + "' r='" + size/30 + "' stroke='black' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.38 * size + "' cy='" + 0.04 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.14 * size + "' cy='" + 0.16 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");      
+        positions.push("<circle cx='" + 0.04 * size + "' cy='" + 0.39 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>"); 
+        positions.push("<circle cx='" + 0.04 * size + "' cy='" + 0.61 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.38 * size + "' cy='" + 0.96 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.14 * size + "' cy='" + 0.84 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.62 * size + "' cy='" + 0.04 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.86 * size + "' cy='" + 0.16 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");      
+        positions.push("<circle cx='" + 0.96 * size + "' cy='" + 0.39 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>"); 
+        positions.push("<circle cx='" + 0.96 * size + "' cy='" + 0.61 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.62 * size + "' cy='" + 0.96 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");
+        positions.push("<circle cx='" + 0.86 * size + "' cy='" + 0.84 * size + "' r='" + size/30 + "' stroke='DarkSlateGray' stroke-width='" + size/75 + "' fill='white'></circle>");
     
         return positions;
     }

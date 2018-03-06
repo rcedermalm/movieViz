@@ -1,6 +1,6 @@
 #sidebar {
     background-color:rgb(139, 13, 13);
-    min-height: 100vh;
+    height: 100vh;
     align-items: center;
 }
 
@@ -8,11 +8,14 @@
     font-size: 30px;
     color: white;
     font-weight: bold;
-    padding: 20px;
-    height: 80px;
+    padding: 20px 20px 0px 20px;
+    margin-bottom: 0;
 }
 
-
+#main-text {
+    margin-top:0;
+    padding-bottom: 20px;
+}
 
 .movie {
     height: 220px;
@@ -20,19 +23,41 @@
     background-position: center; 
 }
 
+.list-item {
+    cursor:pointer;
+}
 
+.active {
+    background-color: cadetblue !important;
+    border: 1px solid darkgray !important;
+}
+
+#search-bar {
+    width: 70%;
+}
+
+.input-group {
+    width: 70% !important;
+    margin-bottom: 12px;
+}
+
+input:focus,
+button:focus {
+    box-shadow: none !important;
+}
 
 .movielist {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background-position: center; 
-    width: 400px;
-    height: 100%;
-    position: center;
-    max-height: 800px;
+    width: 80%;
+    height: 70vh;
+    text-align: left;
     overflow-y: auto;
     overflow-x: hidden;
   }
   
+#viewport{
+    padding: 20px;
+    padding-top: 50px;
+}
 
 .extra-info {
     background-color: white;
@@ -72,7 +97,6 @@
     width: 40px;
     height: 40px;
     top: 20px;
-    right: 20px;
     position: fixed;
     background-image: url("../images/info.png");
     background-size: contain;
@@ -81,13 +105,13 @@
 
 .box-info {
     position: absolute;
-    left: 170px;
+    left: 200px;
     top: 50px;
     background-color: white;
     border:1px solid black;
     padding-top: 30px;
-    padding-right:50px;
-    padding-left:50px;
+    padding-right:70px;
+    padding-left:70px;
     z-index: 1;
 }
 
@@ -128,15 +152,4 @@
 
 .box-info-value {
     font-size: 11px;
-}
-
-input[type=text] {
-    width: 130px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
-
-/* When the input field gets focus, change its width to 100% */
-input[type=text]:focus {
-    width: 100%;
 }

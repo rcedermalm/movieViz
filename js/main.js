@@ -8,92 +8,17 @@ var app;
 function ready(error, data){
 	if(error) throw error;
 
-	view = new viewport(data);
-
-	addMovie(data[1]);
-	addMovie(data[154]);
-	addMovie(data[541]);
-	addMovie(data[621]);
-	addMovie(data[115]);
-	addMovie(data[4563]);
-	addMovie(data[785]);
-	addMovie(data[453]);
+	view = new viewport();
 
 	data = preprocess(data);
-
-
-	/*var movietitles = [];
-	data.forEach(function(d){ 
-		var t = d["movie_title"];
-		if(typeof(t) == "string"){
-			movietitles.push(t);
-		}
-
-	});
-*/
 	var list = new listmovies(data);
-	
-	var grossList = [];
-	var budgetList = [];
-	
-	data.forEach(function(d){ 
-		var t = d["movie_title"];
-		var s = d.gross;
-		
-		grossList.push({movie_title: t, gross:s, facebook_likes:d.movie_facebook_likes});
-
-	});
-	
-	//console.log(grossList);
-	
-
-	
-	
-	//Make some lists to test with, ex. top 50 (because sorting is dumb) by IMDB rating
-	/*data.sort(function(a,b){
-		if (a.gross < b.gross) //sort string descending
-			return -1;
-		if (a.gross > b.gross)
-			return 1;
-		return 0; //default return value (no sorting)
-	})*/
-	//console.log("After sorting");
-
-	var top50 = data.slice(0, 50);
-
-	var scores = [];
-	data.forEach(function(d){ 
-		var t = d["imdb_score"];
-		if(typeof(t) != "undefined"){
-			scores.push(t);
-		}
-
-	});
-	
-	
-	//table = new tablelens(grossList);
-
-	//console.log(data);
-
-
 }
 
 //Remove all data entries without a title
 function preprocess(data){
 
 	data.forEach(function(d){
-		//console.log(d);
-		//console.log(d);
-		/*Object.keys(d).forEach(function(key){
-			var t = key;
-			
-			if(typeof(t) == 'undefined'){
-				var i = data.indexOf(d);
-				//Remove data point
-				data.splice(i, 1); 	
-			}
-		});*/
-		
+	
 		var t = d["movie_title"];
 		var s = d["imdb_score"];
 
@@ -103,7 +28,7 @@ function preprocess(data){
 		}
 		
 		//Ta bort rating > 10
-		if(typeof(t) == "undefined" || typeof(s) == "undefined" || s.charAt(1) != "."){
+		if(typeof(t) == "undefined" || typeof(s) == "undefined" || parseFloat(s) > 10){
 			var i = data.indexOf(d);
 			//Remove data point
 			data.splice(i, 1); 
@@ -112,28 +37,3 @@ function preprocess(data){
 	});
 	return data;
 }
-
-
-/*
-	var movietitles = [];
-	data.forEach(function(d){ 
-		var t = d["movie_title"];
-		if(typeof(t) == "string"){
-			t.trim();
-			t = t.slice(0, -2); //Remove the ?? at the end of the titles
-			movietitles.push(t);
-		}
-
-	});
-	//console.log(movietitles);
-
-	console.log("Movietitles: " + movietitles.length);*/
-
-	/*movietitles.sort(function(a, b){
-	var nameA=a.toLowerCase(), nameB=b.toLowerCase();
-		if (nameA < nameB) //sort string ascending
-			return -1;
-		if (nameA > nameB)
-			return 1;
-		return 0; //default return value (no sorting)
-	});*/
